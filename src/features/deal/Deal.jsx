@@ -1,12 +1,15 @@
 import { FaComment, FaSteam } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Message from "../../reuseable/Message";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { addToWatchlist } from "../dataSlice";
 import { useNavigate } from "react-router-dom";
 
 function Deal() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     name,
@@ -16,10 +19,20 @@ function Deal() {
     steamRatingPercent,
     metacriticScore,
     thumb,
+    gameID,
+    isInWatchlist,
   } = useSelector((state) => state.data.clickedDeal);
 
   const handleBack = () => {
+    console.log("hello");
     navigate(-1);
+  };
+
+  const { id } = useParams();
+
+  const handleAddingToWatchlist = () => {
+    const newItem = { id, gameID, name, salePrice, retailPrice };
+    dispatch(addToWatchlist(newItem));
   };
   return (
     <div>
@@ -34,12 +47,19 @@ function Deal() {
             <img src={thumb} alt="" />
             <div
               onClick={handleBack}
-              className="absolute top-2 left-5 w-12 h-12 bg-sky-950 flex justify-center items-center rounded-full border-2"
+              className="absolute top-2 left-5 w-12 h-12 bg-sky-50 flex justify-center items-center rounded-full border-2"
             >
-              <FaAngleLeft />
+              <FaAngleLeft color="#082f49" />
             </div>
-            <div className="absolute top-2 right-5 w-12 h-12 bg-sky-950 flex justify-center items-center rounded-full border-2">
-              <FaRegStar />
+            <div
+              onClick={handleAddingToWatchlist}
+              className="absolute top-2 right-5 w-12 h-12 bg-sky-50 flex justify-center items-center rounded-full border-2"
+            >
+              {isInWatchlist ? (
+                <FaStar color="#082f49" />
+              ) : (
+                <FaRegStar color="#082f49" />
+              )}
             </div>
           </div>
           <div className="p-4">

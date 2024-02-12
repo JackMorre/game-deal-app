@@ -14,3 +14,9 @@ export const checkTitleLength = (title) => {
   }
   return title;
 };
+
+export const checkInWishlist = (wishlist, clickedDeal) => {
+  const check = wishlist.find((deal) => deal.gameID === clickedDeal.gameID);
+  if (check === undefined) return false;
+  return true;
+};
