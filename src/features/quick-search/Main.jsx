@@ -3,43 +3,13 @@ import Filter from "../../reuseable/Filter";
 import MainListItem from "../../reuseable/MainListItem";
 import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
-import { checkInWishlist } from "../../utility/helpers";
-import { updateClicked, updateDealID } from "../../features/dataSlice";
-import axios from "axios";
-import { useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 function Main() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const loading = useSelector((state) => state.data.loading);
-  const { data, watchlist, dealID } = useSelector((state) => state.data);
+  const { data } = useSelector((state) => state.data);
 
-  useEffect(
-    function () {
-      if (!dealID) return;
-      const getDealData = async () => {
-        try {
-          const res = await axios.get(
-            `https://www.cheapshark.com/api/1.0/deals?id=${dealID}`
-          );
-          const checked = checkInWishlist(watchlist, res.data.gameInfo);
-          dispatch(
-            updateClicked({ ...res.data.gameInfo, isInWatchlist: checked })
-          );
-          console.log("hello");
-          // dispatch(updateDealID(dealID));
-          navigate(`/deals/${dealID}`);
-        } catch (error) {
-          console.log(error);
-        } finally {
-        }
-      };
-
-      getDealData();
-    },
-    [dispatch, dealID, navigate, watchlist]
-  );
   return (
     <div className="">
       <Filter />
@@ -59,7 +29,7 @@ function Main() {
         </p>
       ) : (
         <ul>
-          {data.map((game) => (
+          {data.games.map((game) => (
             <MainListItem game={game} key={game.gameID} />
           ))}
         </ul>

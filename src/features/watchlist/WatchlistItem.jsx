@@ -4,9 +4,11 @@ import { resetMenu } from "../../ui/UiSlice";
 
 function WatchlistItem({ deal }) {
   const dispatch = useDispatch();
+
   const handleNavigateDeal = () => {
-    dispatch(updateDealID(deal.dealID));
+    console.log("watch list clicked");
     dispatch(resetMenu());
+    dispatch(updateDealID(deal.dealID));
   };
   return (
     <li

@@ -22,7 +22,6 @@ function Aside() {
   const dispatch = useDispatch();
 
   const toggleMenuHeader = () => {
-    console.log("clicked");
     dispatch(resetMenu());
   };
 

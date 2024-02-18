@@ -17,7 +17,7 @@ function SearchBar() {
     axios
       .get(`https://www.cheapshark.com/api/1.0/games?title=${searchTerm}`)
       .then((res) => {
-        dispatch(updateData(res.data));
+        dispatch(updateData({ searchTerm, games: res.data }));
         dispatch(toggleLoading());
         navigate(`/search/${searchTerm}`);
         setQuery("");

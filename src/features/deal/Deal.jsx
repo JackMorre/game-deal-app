@@ -8,7 +8,7 @@ import { addToWatchlist, updateClicked, updateDealID } from "../dataSlice";
 import { useNavigate } from "react-router-dom";
 
 function Deal() {
-  const { dealID } = useSelector((state) => state.data);
+  const { dealID, data } = useSelector((state) => state.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -24,9 +24,8 @@ function Deal() {
   } = useSelector((state) => state.data.clickedDeal);
 
   const handleBack = () => {
-    dispatch(updateClicked(""));
     dispatch(updateDealID(""));
-    navigate(-1);
+    navigate(`/search/${data.searchTerm}`);
   };
 
   const handleAddingToWatchlist = () => {

@@ -1,21 +1,50 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useNavigate, useNavigation } from "react-router-dom";
 import { Bars } from "react-loading-icons";
+import { checkInWishlist } from "../utility/helpers";
+import { updateClicked } from "../features/dataSlice";
+import axios from "axios";
+import { useEffect } from "react";
 
 import Aside from "./Aside";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AppLayout() {
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { watchlist, dealID } = useSelector((state) => state.data);
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
 
-  // const handleOpenCloseMenu = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-
   const isMenuOpen = useSelector((state) => state.ui.isMenuOpen);
+
+  useEffect(
+    function () {
+      console.log(dealID);
+      if (!dealID) return;
+      const getDealData = async () => {
+        try {
+          const res = await axios.get(
+            `https://www.cheapshark.com/api/1.0/deals?id=${dealID}`
+          );
+          const checked = checkInWishlist(watchlist, res.data.gameInfo);
+          dispatch(
+            updateClicked({ ...res.data.gameInfo, isInWatchlist: checked })
+          );
+          console.log("update clicked");
+          // dispatch(updateDealID(dealID));
+          navigate(`/deals/${dealID}`);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      getDealData();
+    },
+    [dispatch, dealID, navigate, watchlist]
+  );
 
   return (
     <div
