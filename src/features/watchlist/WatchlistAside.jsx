@@ -20,7 +20,7 @@ function WatchlistAside() {
       ) : (
         <ul className="">
           {watchlist.map((deal) => {
-            return <WatchlistItem key={deal.id} deal={deal} />;
+            return <WatchlistItem deal={deal} />;
           })}
         </ul>
       )}

@@ -1,6 +1,19 @@
+import { useDispatch } from "react-redux";
+import { updateDealID } from "../dataSlice";
+import { resetMenu } from "../../ui/UiSlice";
+
 function WatchlistItem({ deal }) {
+  const dispatch = useDispatch();
+  const handleNavigateDeal = () => {
+    dispatch(updateDealID(deal.dealID));
+    dispatch(resetMenu());
+  };
   return (
-    <li className="transition-all flex flex-row justify-between p-2 cursor-pointer group mb-[-1px]">
+    <li
+      key={deal.id}
+      onClick={handleNavigateDeal}
+      className="transition-all flex flex-row justify-between p-2 cursor-pointer group mb-[-1px]"
+    >
       <h3 className="transition-all text-slate-300 ml-0 group-hover:ml-4 text-inherit group-hover:text-slate-100">
         {deal.name}
       </h3>

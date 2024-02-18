@@ -19,14 +19,14 @@ function SearchBar() {
       .then((res) => {
         dispatch(updateData(res.data));
         dispatch(toggleLoading());
+        navigate(`/search/${searchTerm}`);
+        setQuery("");
       });
-  }, [dispatch, searchTerm]);
+  }, [dispatch, searchTerm, query, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search/${query}`);
     setSearchTerm(query);
-    setQuery("");
   };
   return (
     <form className="grow flex" onSubmit={handleSubmit}>

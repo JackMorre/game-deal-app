@@ -4,11 +4,11 @@ import Message from "../../reuseable/Message";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
-import { useParams } from "react-router-dom";
-import { addToWatchlist } from "../dataSlice";
+import { addToWatchlist, updateClicked, updateDealID } from "../dataSlice";
 import { useNavigate } from "react-router-dom";
 
 function Deal() {
+  const { dealID } = useSelector((state) => state.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -24,14 +24,13 @@ function Deal() {
   } = useSelector((state) => state.data.clickedDeal);
 
   const handleBack = () => {
-    console.log("hello");
+    dispatch(updateClicked(""));
+    dispatch(updateDealID(""));
     navigate(-1);
   };
 
-  const { id } = useParams();
-
   const handleAddingToWatchlist = () => {
-    const newItem = { id, gameID, name, salePrice, retailPrice };
+    const newItem = { dealID, gameID, name, salePrice, retailPrice };
     dispatch(addToWatchlist(newItem));
   };
   return (

@@ -1,44 +1,13 @@
-import { useEffect, useState } from "react";
 import { checkTitleLength } from "../utility/helpers";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { updateClicked, updateDealID } from "../features/dataSlice";
-import { checkInWishlist } from "../utility/helpers";
+
+import { updateDealID } from "../features/dataSlice";
 
 function MainListItem({ game }) {
-  const [dealID, setDealID] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { watchlist } = useSelector((state) => state.data);
-
-  useEffect(
-    function () {
-      if (!dealID) return;
-      const getDealData = async () => {
-        try {
-          const res = await axios.get(
-            `https://www.cheapshark.com/api/1.0/deals?id=${dealID}`
-          );
-          const checked = checkInWishlist(watchlist, res.data.gameInfo);
-          dispatch(
-            updateClicked({ ...res.data.gameInfo, isInWatchlist: checked })
-          );
-          dispatch(updateDealID(dealID));
-          navigate(`/deals/${dealID}`);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      getDealData();
-    },
-    [dispatch, dealID, navigate, watchlist]
-  );
-
   const handleNavigateDeal = () => {
-    setDealID(game.cheapestDealID);
+    dispatch(updateDealID(game.cheapestDealID));
   };
   return (
     <li
