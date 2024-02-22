@@ -25,11 +25,22 @@ function Deal() {
 
   const handleBack = () => {
     dispatch(updateDealID(""));
-    navigate(`/search/${data.searchTerm}`);
+    if (data.searchTerm === "watchlist" || data.searchTerm === "history") {
+      navigate(`/${data.searchTerm}`);
+    } else {
+      navigate(`/search/${data.searchTerm}`);
+    }
   };
 
   const handleAddingToWatchlist = () => {
-    const newItem = { dealID, gameID, name, salePrice, retailPrice };
+    const newItem = {
+      dealID,
+      gameID,
+      name,
+      cheapest: salePrice,
+      retailPrice,
+      thumb,
+    };
     dispatch(addToWatchlist(newItem));
   };
   return (
@@ -45,13 +56,13 @@ function Deal() {
             <img src={thumb} alt="" />
             <div
               onClick={handleBack}
-              className="absolute top-2 left-5 w-12 h-12 bg-sky-50 flex justify-center items-center rounded-full border-2"
+              className="absolute top-2 left-5 w-12 h-12 bg-sky-50 flex justify-center items-center rounded-full border-2 cursor-pointer"
             >
               <FaAngleLeft color="#082f49" />
             </div>
             <div
               onClick={handleAddingToWatchlist}
-              className="absolute top-2 right-5 w-12 h-12 bg-sky-50 flex justify-center items-center rounded-full border-2"
+              className="absolute top-2 right-5 w-12 h-12 bg-sky-50 flex justify-center items-center rounded-full border-2 cursor-pointer"
             >
               {isInWatchlist ? (
                 <FaStar color="#082f49" />

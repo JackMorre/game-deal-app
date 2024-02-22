@@ -2,12 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toggleLoading, updateData } from "../dataSlice";
+import { toggleLoading, updateData, updateHistory } from "../dataSlice";
+import { v4 as uuid } from "uuid";
 
 function SearchBar() {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const id = uuid();
 
   const navigate = useNavigate();
 
@@ -19,8 +22,10 @@ function SearchBar() {
       .then((res) => {
         dispatch(updateData({ searchTerm, games: res.data }));
         dispatch(toggleLoading());
+        dispatch(updateHistory({ label: "searched", name: searchTerm, id }));
         navigate(`/search/${searchTerm}`);
         setQuery("");
+        setSearchTerm("");
       });
   }, [dispatch, searchTerm, query, navigate]);
 

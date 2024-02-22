@@ -1,51 +1,29 @@
-function HistoryAside({ handleHistorySeeMore }) {
-  return (
-    <div className="flex flex-col">
-      <div className="flex p-4 justify-between">
-        <h2 className="text-2xl ">History</h2>
+import { useSelector } from "react-redux";
+import HistoryCard from "./HistoryCard";
 
-        <button onClick={handleHistorySeeMore}>See More</button>
-      </div>
-      <div className="border-t grow">
-        <h3 className="py-3 px-4 border-b">Recent History</h3>
-        <div className="flex flex-col justify-between h-full">
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-          <div className="flex py-2 px-4 justify-between mb-[-1px]">
-            <h4>Witcher III: Wild Hunt</h4>
-            <p className="text-xs text-sky-50/20 self-end ">searched</p>
-          </div>
-        </div>
+function HistoryAside() {
+  const { history } = useSelector((state) => state.data);
+  return (
+    <div className="flex flex-col h-auto overflow-y-scroll">
+      <div className="border-t mt-[-1px] grow h-full">
+        <h3 className="pt-4 pb-2 mx-2 h-auto border-b text-2xl text-stone-300 font-bold leading-4 ">
+          Recent History
+        </h3>
+        {history.length === 0 ? (
+          <p className="px-2 py-2">No History Recorded</p>
+        ) : (
+          <ul className="flex flex-col h-auto">
+            {history.map((item) => {
+              return (
+                <HistoryCard
+                  name={item.name}
+                  label={item.label}
+                  key={item.id}
+                />
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import WatchlistAside from "../features/watchlist/WatchlistAside";
 
 function MainMenu() {
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full overflow-y-hidden">
       <QuickSearchAside />
       <WatchlistAside />
     </div>

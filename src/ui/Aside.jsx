@@ -9,15 +9,6 @@ import { resetMenu } from "./UiSlice";
 function Aside() {
   const isMenuOpen = useSelector((state) => state.ui.isMenuOpen);
   const isHistoryOpen = useSelector((state) => state.ui.isHistoryOpen);
-  // const handleHistorySeeMore = () => {
-  //   handleOpenCloseMenu();
-  //   setIsHistoryOpen(!isHistryOpen);
-  //   navigate("/history");
-  // };
-
-  // const handleHistoryButton = () => {
-  //   setIsHistoryOpen(!isHistryOpen);
-  // };
 
   const dispatch = useDispatch();
 
@@ -27,23 +18,33 @@ function Aside() {
 
   return (
     <aside
-      className={`w-5/6 absolute top-0 left-0 h-screen bg-sky-950 z-10 grid-rows-[auto_1fr_auto] drop-shadow-2xl  ${
-        isMenuOpen ? "grid" : "hidden"
-      }`}
+      className={`absolute top-0 left-0 z-10 ${
+        isMenuOpen ? "" : "hidden"
+      } w-full flex`}
     >
-      <div className="flex items-center justify-between p-4 border-b sm:hidden">
-        <button onClick={toggleMenuHeader}>
-          <FaXmark size="30px" />
-        </button>
+      <div
+        className={`w-5/6 h-screen bg-sky-950  drop-shadow-2xl grid-rows-[auto_1fr_auto] grid`}
+      >
+        <div className="flex items-center justify-between p-4 border-b sm:hidden">
+          <button onClick={toggleMenuHeader}>
+            <FaXmark size="30px" />
+          </button>
 
-        <h1 className="text-xl text-stone-300">BGD</h1>
-      </div>
-      {isHistoryOpen ? <HistoryAside /> : <MainMenu />}
+          <h1 className="text-xl text-stone-300">
+            {isHistoryOpen ? "History" : "BGD"}
+          </h1>
+        </div>
+        {isHistoryOpen ? <HistoryAside /> : <MainMenu />}
 
-      <div className="flex justify-between bg-inherit border-t ">
-        <Resetbtn />
-        <HistoryBtn />
+        <div className="flex justify-between bg-inherit border-t ">
+          <Resetbtn />
+          <HistoryBtn />
+        </div>
       </div>
+      <button
+        onClick={toggleMenuHeader}
+        className="w-1/6 h-screen cursor-default"
+      ></button>
     </aside>
   );
 }

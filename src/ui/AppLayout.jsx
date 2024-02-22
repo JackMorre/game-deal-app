@@ -3,9 +3,10 @@ import Footer from "./Footer";
 import { Outlet, useNavigate, useNavigation } from "react-router-dom";
 import { Bars } from "react-loading-icons";
 import { checkInWishlist } from "../utility/helpers";
-import { updateClicked } from "../features/dataSlice";
+import { updateClicked, updateHistory } from "../features/dataSlice";
 import axios from "axios";
 import { useEffect } from "react";
+import { v4 as uuid } from "uuid";
 
 import Aside from "./Aside";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,10 +20,10 @@ function AppLayout() {
   const isLoading = navigation.state === "loading";
 
   const isMenuOpen = useSelector((state) => state.ui.isMenuOpen);
+  const id = uuid();
 
   useEffect(
     function () {
-      console.log(dealID);
       if (!dealID) return;
       const getDealData = async () => {
         try {
@@ -31,9 +32,11 @@ function AppLayout() {
           );
           const checked = checkInWishlist(watchlist, res.data.gameInfo);
           dispatch(
+            updateHistory({ label: "viewed", name: res.data.gameInfo.name, id })
+          );
+          dispatch(
             updateClicked({ ...res.data.gameInfo, isInWatchlist: checked })
           );
-          console.log("update clicked");
           // dispatch(updateDealID(dealID));
           navigate(`/deals/${dealID}`);
         } catch (error) {

@@ -1,17 +1,22 @@
-import { checkQuickSearchParam } from "../../utility/helpers";
+import {
+  checkQuickSearchParam,
+  checkWishlistInData,
+} from "../../utility/helpers";
 import Filter from "../../reuseable/Filter";
 import MainListItem from "../../reuseable/MainListItem";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
 
 import { useNavigate } from "react-router-dom";
 
 function Main() {
   const loading = useSelector((state) => state.data.loading);
-  const { data } = useSelector((state) => state.data);
+  const { data, watchlist } = useSelector((state) => state.data);
+
+  const newData = checkWishlistInData(data, watchlist);
 
   return (
-    <div className="">
+    <div>
       <Filter />
       {loading ? (
         <div className="flex justify-center items-center mt-4">
@@ -29,8 +34,8 @@ function Main() {
         </p>
       ) : (
         <ul>
-          {data.games.map((game) => (
-            <MainListItem game={game} key={game.gameID} />
+          {newData.games.map((game) => (
+            <MainListItem game={game} key={game.cheapestDealID} />
           ))}
         </ul>
       )}

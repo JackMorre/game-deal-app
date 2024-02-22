@@ -5,6 +5,7 @@ const initialState = {
   clickedDeal: {},
   loading: false,
   watchlist: [],
+  history: [],
   dealID: "",
 };
 
@@ -22,41 +23,57 @@ const dataSlice = createSlice({
       state.loading = !state.loading;
     },
     addToWatchlist(state, action) {
-      console.log(state.watchlist);
-      const filtered = state?.watchlist.find(
-        (deal) => deal.gameID === action.payload.gameID
-      );
-      if (filtered === undefined) {
-        state.watchlist.push(action.payload);
+      const filtered = state?.watchlist.some((deal) => {
+        return deal.gameID === action.payload.gameID;
+      });
+
+      if (filtered === true) {
+        state.watchlist = [
+          ...state.watchlist.filter(
+            (deal) => deal.gameID !== action.payload.gameID
+          ),
+        ];
+        state.clickedDeal = {
+          ...state.clickedDeal,
+          isInWatchlist: !state.clickedDeal.isInWatchlist,
+        };
+      } else if (filtered === false) {
+        state.watchlist = [action.payload, ...state.watchlist];
         state.clickedDeal = {
           ...state.clickedDeal,
           isInWatchlist: !state.clickedDeal.isInWatchlist,
         };
       } else {
-        console.log(state.watchlist.length, 1);
-        if (state.watchlist.length === 1) {
-          state.watchlist = [];
-          state.clickedDeal = {
-            ...state.clickedDeal,
-            isInWatchlist: !state.clickedDeal.isInWatchlist,
-          };
-        } else {
-          state.watchlist = [
-            {
-              ...state.watchlist.filter(
-                (deal) => deal.gameID !== action.payload.gameID
-              ),
-            },
-          ];
-          state.clickedDeal = {
-            ...state.clickedDeal,
-            isInWatchlist: !state.clickedDeal.isInWatchlist,
-          };
-        }
+        console.log(filtered);
       }
+      // } else {
+      //   console.log(state.watchlist.length, 1);
+      //   if (state.watchlist.length === 1) {
+      //     state.watchlist = [];
+      //     state.clickedDeal = {
+      //       ...state.clickedDeal,
+      //       isInWatchlist: !state.clickedDeal.isInWatchlist,
+      //     };
+      //   } else {
+      //     state.watchlist = [
+      //       {
+      //         ...state.watchlist.filter(
+      //           (deal) => deal.gameID !== action.payload.gameID
+      //         ),
+      //       },
+      //     ];
+      //     state.clickedDeal = {
+      //       ...state.clickedDeal,
+      //       isInWatchlist: !state.clickedDeal.isInWatchlist,
+      //     };
+      //   }
+      // }
     },
     updateDealID(state, action) {
       state.dealID = action.payload;
+    },
+    updateHistory(state, action) {
+      state.history.unshift(action.payload);
     },
   },
 });
@@ -67,6 +84,9 @@ export const {
   toggleLoading,
   addToWatchlist,
   updateDealID,
+  updateHistory,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;
+
+// csh010053685

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateData } from "../features/dataSlice";
 
 function Filter() {
-  const data = useSelector((state) => state.data.data);
+  const { games, searchTerm } = useSelector((state) => state.data.data);
   const dispatch = useDispatch();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -13,16 +13,16 @@ function Filter() {
   };
 
   const handleLowestPriceFiltering = () => {
-    const newArray = data
+    const newArray = games
       .slice()
       .sort((a, b) => Number(a.cheapest) - Number(b.cheapest));
-    dispatch(updateData(newArray));
+    dispatch(updateData({ searchTerm, games: newArray }));
   };
   const handleHighestPriceFiltering = () => {
-    const newArray = data
+    const newArray = games
       .slice()
       .sort((a, b) => Number(b.cheapest) - Number(a.cheapest));
-    dispatch(updateData(newArray));
+    dispatch(updateData({ searchTerm, games: newArray }));
   };
   return (
     <div className="p-4 flex justify-between border-b">
