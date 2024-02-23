@@ -8,7 +8,7 @@ import { resetMenu } from "./UiSlice";
 
 function Aside() {
   const isMenuOpen = useSelector((state) => state.ui.isMenuOpen);
-  const isHistoryOpen = useSelector((state) => state.ui.isHistoryOpen);
+  const { isHistoryOpen, isOnDesktopMode } = useSelector((state) => state.ui);
 
   const dispatch = useDispatch();
 
@@ -19,32 +19,36 @@ function Aside() {
   return (
     <aside
       className={`absolute top-0 left-0 z-10 ${
-        isMenuOpen ? "" : "hidden"
-      } w-full flex`}
+        isMenuOpen ? "" : isOnDesktopMode ? "" : "hidden"
+      } w-full flex sm:static sm:w-2/6 sm:shrink`}
     >
       <div
-        className={`w-5/6 h-screen bg-sky-950  drop-shadow-2xl grid-rows-[auto_1fr_auto] grid`}
+        className={`w-5/6 sm:w-full h-screen bg-sky-950  drop-shadow-2xl grid-rows-[auto_1fr_auto] grid sm:grid-rows-[1fr_auto]`}
       >
-        <div className="flex items-center justify-between p-4 border-b sm:hidden">
-          <button onClick={toggleMenuHeader}>
-            <FaXmark size="30px" />
-          </button>
+        {!isOnDesktopMode && (
+          <div className="flex items-center justify-between p-4 border-b">
+            <button onClick={toggleMenuHeader}>
+              <FaXmark size="30px" />
+            </button>
 
-          <h1 className="text-xl text-stone-300">
-            {isHistoryOpen ? "History" : "BGD"}
-          </h1>
-        </div>
+            <h1 className="text-xl text-stone-300">
+              {isHistoryOpen ? "History" : "BGD"}
+            </h1>
+          </div>
+        )}
         {isHistoryOpen ? <HistoryAside /> : <MainMenu />}
 
-        <div className="flex justify-between bg-inherit border-t ">
+        <div className="flex justify-between bg-inherit border-t h-auto ">
           <Resetbtn />
           <HistoryBtn />
         </div>
       </div>
-      <button
-        onClick={toggleMenuHeader}
-        className="w-1/6 h-screen cursor-default"
-      ></button>
+      {!isOnDesktopMode ? (
+        <button
+          onClick={toggleMenuHeader}
+          className="w-1/6 h-screen cursor-default"
+        ></button>
+      ) : null}
     </aside>
   );
 }

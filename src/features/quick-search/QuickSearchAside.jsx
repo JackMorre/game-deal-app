@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { toggleLoading, updateData } from "../dataSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLoading, updateData, updateQuicksearchData } from "../dataSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { resetMenu } from "../../ui/UiSlice";
+import QuicksearchCard from "./QuicksearchCard";
+import { searchArray } from "../../utility/helpers";
 
 function QuickSearchAside() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [url, setUrl] = useState(
-    "https://www.cheapshark.com/api/1.0/deals?upperPrice=15"
+    "https://www.cheapshark.com/api/1.0/deals?upperPrice=10"
   );
+
+  const { quicksearchData } = useSelector((state) => state.data);
+
   const [searchTerm, setSearchTerm] = useState("best-deals");
 
   useEffect(
@@ -22,9 +27,16 @@ function QuickSearchAside() {
           dispatch(toggleLoading());
           const res = await axios.get(url);
           const newArr = res.data.map((obj) => {
-            return { ...obj, name: obj.title, cheapestDealID: obj.dealID };
+            return {
+              ...obj,
+              name: obj.title,
+              cheapestDealID: obj.dealID,
+              cheapest: obj.salePrice,
+            };
           });
           dispatch(updateData({ searchTerm, games: newArr }));
+          const updatedArr = searchArray(quicksearchData, searchTerm);
+          dispatch(updateQuicksearchData(updatedArr));
           dispatch(toggleLoading());
           navigate(`/quick-search/${searchTerm}`);
           setSearchTerm("");
@@ -36,7 +48,7 @@ function QuickSearchAside() {
 
       getDealData();
     },
-    [url, searchTerm, dispatch, navigate]
+    [url, searchTerm, dispatch, navigate, quicksearchData]
   );
 
   const handleUpdateUrl = (urlStr, searchStr) => {
@@ -53,47 +65,15 @@ function QuickSearchAside() {
       </div>
 
       <ul className="flex flex-col justify-around gap-2 pt-1">
-        <li className="group transition-all text-slate-300 mx-2 cursor-pointer hover:border-t-slate-100 hover:border-b-slate-100 mb-[-1px] hover:bg-sky-50">
-          <button
-            onClick={() => {
-              handleUpdateUrl(
-                "https://www.cheapshark.com/api/1.0/deals?upperPrice=10",
-                "best-deals"
-              );
-            }}
-            className="transition-all ml-0 group-hover:ml-4 text-inherit group-hover:text-slate-900"
-          >
-            Best Deals
-          </button>
-        </li>
-
-        <li className="group transition-all text-slate-300 mx-2 cursor-pointer hover:border-t-slate-100 hover:border-b-slate-100 mb-[-1px] hover:bg-sky-50">
-          <button
-            onClick={() => {
-              handleUpdateUrl(
-                "https://www.cheapshark.com/api/1.0/deals?upperPrice=15",
-                "deals-below-15"
-              );
-            }}
-            className="transition-all ml-0 group-hover:ml-4 text-inherit group-hover:text-slate-900"
-          >
-            Deals Below £15
-          </button>
-        </li>
-
-        <li className="group transition-all text-slate-300 mx-2 cursor-pointer hover:border-t-slate-100 hover:border-b-slate-100 mb-[-1px] hover:bg-sky-50">
-          <button
-            onClick={() => {
-              handleUpdateUrl(
-                "https://www.cheapshark.com/api/1.0/deals?upperPrice=30",
-                "deals-below-30"
-              );
-            }}
-            className="transition-all ml-0 group-hover:ml-4 text-inherit group-hover:text-slate-900"
-          >
-            Deals Below £30
-          </button>
-        </li>
+        {quicksearchData.map((obj) => {
+          return (
+            <QuicksearchCard
+              handleUpdateUrl={handleUpdateUrl}
+              data={obj}
+              key={obj.name}
+            />
+          );
+        })}
       </ul>
     </div>
   );

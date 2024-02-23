@@ -12,10 +12,10 @@ function Header() {
 
   return (
     <header className="flex gap-4 py-4 px-4 border-b">
-      <button onClick={toggleMenuHeader}>
+      <button className="block sm:hidden" onClick={toggleMenuHeader}>
         <FaBars size="30px" />
       </button>
-      <h1 className="text-2xl hidden">BGD</h1>
+      <h1 className="text-2xl hidden sm:block">BGD</h1>
       <SearchBar />
     </header>
   );

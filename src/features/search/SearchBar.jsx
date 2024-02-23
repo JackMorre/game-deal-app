@@ -10,24 +10,34 @@ function SearchBar() {
   const [query, setQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const id = uuid();
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!searchTerm) return;
-    dispatch(toggleLoading());
-    axios
-      .get(`https://www.cheapshark.com/api/1.0/games?title=${searchTerm}`)
-      .then((res) => {
-        dispatch(updateData({ searchTerm, games: res.data }));
-        dispatch(toggleLoading());
-        dispatch(updateHistory({ label: "searched", name: searchTerm, id }));
-        navigate(`/search/${searchTerm}`);
-        setQuery("");
-        setSearchTerm("");
-      });
-  }, [dispatch, searchTerm, query, navigate]);
+  useEffect(
+    function () {
+      if (!searchTerm) return;
+
+      const updateUrlData = async () => {
+        try {
+          dispatch(toggleLoading());
+          const res = await axios.get(
+            `https://www.cheapshark.com/api/1.0/games?title=${searchTerm}`
+          );
+          dispatch(updateData({ searchTerm, games: res.data }));
+          dispatch(toggleLoading());
+          dispatch(
+            updateHistory({ label: "searched", name: searchTerm, id: uuid() })
+          );
+          navigate(`/search/${searchTerm}`);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      updateUrlData();
+      // setQuery("");
+      // setSearchTerm("");
+    },
+    [dispatch, searchTerm, navigate]
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();

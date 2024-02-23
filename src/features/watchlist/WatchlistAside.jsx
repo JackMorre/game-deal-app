@@ -17,14 +17,14 @@ function WatchlistAside() {
   };
   return (
     <div className="h-3/4 grid-rows-[auto_1fr] grid">
-      <div className="flex justify-between mx-2 border-b pb-2">
+      <div className="flex justify-between mx-2 pb-2 border-b">
         <h2 className="text-2xl text-stone-300  font-bold leading-4 ">
           Watch List
         </h2>
         {watchlist.length < 10 ? null : (
           <button
             onClick={handleWatchlistSeeAll}
-            className="items-end text-stone-200 cursor-pointer self-end hover:underline"
+            className="items-end text-stone-200 cursor-pointer self-end hover:underline leading-4"
           >
             See more{" "}
           </button>
@@ -34,7 +34,7 @@ function WatchlistAside() {
       {watchlist.length === 0 ? (
         <p className="text-center pt-1">Nothing on your wishlist yet!</p>
       ) : (
-        <ul className="overflow-y-scroll h-full flex flex-col gap-2">
+        <ul className="overflow-y-scroll h-full flex flex-col gap-3 pt-1">
           {watchlist.map((deal) => {
             return <WatchlistItem deal={deal} key={deal.dealID} />;
           })}

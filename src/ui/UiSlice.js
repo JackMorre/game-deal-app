@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isMenuOpen: false,
   isHistoryOpen: false,
+  isOnDesktopMode: false,
 };
 
 const uiSlice = createSlice({
@@ -19,9 +20,13 @@ const uiSlice = createSlice({
       state.isMenuOpen = false;
       state.isHistoryOpen = false;
     },
+    toggleDesktopMode(state, action) {
+      state.isOnDesktopMode = !state.isOnDesktopMode;
+    },
   },
 });
 
-export const { toggleMenu, toggleHistory, resetMenu } = uiSlice.actions;
+export const { toggleMenu, toggleHistory, resetMenu, toggleDesktopMode } =
+  uiSlice.actions;
 
 export default uiSlice.reducer;

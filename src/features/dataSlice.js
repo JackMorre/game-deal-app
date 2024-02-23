@@ -7,6 +7,26 @@ const initialState = {
   watchlist: [],
   history: [],
   dealID: "",
+  quicksearchData: [
+    {
+      name: "Best Deals",
+      cheapsharkUrl: "https://www.cheapshark.com/api/1.0/deals?upperPrice=10",
+      urlName: "best-deals",
+      opened: false,
+    },
+    {
+      name: "Deals Below £15",
+      cheapsharkUrl: "https://www.cheapshark.com/api/1.0/deals?upperPrice=15",
+      urlName: "deals-below-15",
+      opened: false,
+    },
+    {
+      name: "Deal Below £30",
+      cheapsharkUrl: "https://www.cheapshark.com/api/1.0/deals?upperPrice=30",
+      urlName: "deals-below-30",
+      opened: false,
+    },
+  ],
 };
 
 const dataSlice = createSlice({
@@ -46,34 +66,18 @@ const dataSlice = createSlice({
       } else {
         console.log(filtered);
       }
-      // } else {
-      //   console.log(state.watchlist.length, 1);
-      //   if (state.watchlist.length === 1) {
-      //     state.watchlist = [];
-      //     state.clickedDeal = {
-      //       ...state.clickedDeal,
-      //       isInWatchlist: !state.clickedDeal.isInWatchlist,
-      //     };
-      //   } else {
-      //     state.watchlist = [
-      //       {
-      //         ...state.watchlist.filter(
-      //           (deal) => deal.gameID !== action.payload.gameID
-      //         ),
-      //       },
-      //     ];
-      //     state.clickedDeal = {
-      //       ...state.clickedDeal,
-      //       isInWatchlist: !state.clickedDeal.isInWatchlist,
-      //     };
-      //   }
-      // }
     },
     updateDealID(state, action) {
       state.dealID = action.payload;
     },
     updateHistory(state, action) {
       state.history.unshift(action.payload);
+    },
+    updateQuicksearchData(state, action) {
+      state.quicksearchData = action.payload;
+    },
+    resetQuicksearch(state, action) {
+      state.quicksearchData = initialState.quicksearchData;
     },
   },
 });
@@ -85,6 +89,8 @@ export const {
   addToWatchlist,
   updateDealID,
   updateHistory,
+  updateQuicksearchData,
+  resetQuicksearch,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

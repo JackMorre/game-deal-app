@@ -16,7 +16,7 @@ function Main() {
   const newData = checkWishlistInData(data, watchlist);
 
   return (
-    <div>
+    <div className="">
       <Filter />
       {loading ? (
         <div className="flex justify-center items-center mt-4">

@@ -46,3 +46,16 @@ export const checkWishlistInData = (dataArr, watchlistArr) => {
   }
   return { ...dataArr, games: newArr };
 };
+
+export const searchArray = (arr, searchTerm) => {
+  const newArr = [];
+  for (let a = 0; a < arr.length; a++) {
+    if (arr[a].urlName === searchTerm) {
+      const newObj = { ...arr[a], opened: true };
+      newArr.push(newObj);
+    } else {
+      newArr.push({ ...arr[a], opened: false });
+    }
+  }
+  return newArr;
+};
