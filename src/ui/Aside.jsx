@@ -20,10 +20,10 @@ function Aside() {
     <aside
       className={`absolute top-0 left-0 z-10 ${
         isMenuOpen ? "" : isOnDesktopMode ? "" : "hidden"
-      } w-full flex sm:static sm:w-2/6 sm:shrink`}
+      } w-full flex sm:static sm:w-2/6 sm:shrink sm:border-r`}
     >
       <div
-        className={`w-5/6 sm:w-full h-screen bg-sky-950  drop-shadow-2xl grid-rows-[auto_1fr_auto] grid sm:grid-rows-[1fr_auto]`}
+        className={`w-5/6 sm:w-full h-screen bg-sky-950 shadow-2xl grid-rows-[auto_1fr_auto] grid sm:grid-rows-[1fr_auto] sm:h-full`}
       >
         {!isOnDesktopMode && (
           <div className="flex items-center justify-between p-4 border-b">

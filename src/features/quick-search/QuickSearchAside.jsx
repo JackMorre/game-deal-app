@@ -57,14 +57,14 @@ function QuickSearchAside() {
   };
 
   return (
-    <div className="h-1/4 pt-4">
+    <div className="h-1/4 pt-4 ">
       <div className="flex justify-between pb-2 mx-2 border-b">
         <h2 className="text-2xl text-stone-300  font-bold leading-4 ">
           Quick Search
         </h2>
       </div>
 
-      <ul className="flex flex-col justify-around gap-2 pt-1">
+      <ul className="flex flex-col gap-2 pt-1 overflow-y-scroll h-3/4">
         {quicksearchData.map((obj) => {
           return (
             <QuicksearchCard

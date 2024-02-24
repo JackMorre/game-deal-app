@@ -11,12 +11,14 @@ function Header() {
   };
 
   return (
-    <header className="flex gap-4 py-4 px-4 border-b">
-      <button className="block sm:hidden" onClick={toggleMenuHeader}>
-        <FaBars size="30px" />
-      </button>
-      <h1 className="text-2xl hidden sm:block">BGD</h1>
-      <SearchBar />
+    <header className="flex justify-center border-b">
+      <div className="flex md:justify-between gap-4 py-4 px-4 sm:px-2 max-w-screen-lg grow">
+        <button className="block sm:hidden" onClick={toggleMenuHeader}>
+          <FaBars size="30px" />
+        </button>
+        <h1 className="text-2xl hidden sm:block">BGD</h1>
+        <SearchBar />
+      </div>
     </header>
   );
 }

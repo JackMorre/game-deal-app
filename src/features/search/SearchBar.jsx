@@ -44,9 +44,9 @@ function SearchBar() {
     setSearchTerm(query);
   };
   return (
-    <form className="grow flex" onSubmit={handleSubmit}>
+    <form className="grow flex justify-end" onSubmit={handleSubmit}>
       <input
-        className="w-full bg-sky-950 border-sky-100 border px-2 py-1 outline-none focus:ring-4"
+        className="w-full md:w-1/2 bg-sky-950 border-sky-100 border px-2 py-1 outline-none focus:ring-4"
         type="text"
         placeholder="Search..."
         value={query}

@@ -79,6 +79,7 @@ const dataSlice = createSlice({
     resetQuicksearch(state, action) {
       state.quicksearchData = initialState.quicksearchData;
     },
+    resetAll: () => initialState,
   },
 });
 
@@ -91,6 +92,7 @@ export const {
   updateHistory,
   updateQuicksearchData,
   resetQuicksearch,
+  resetAll,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

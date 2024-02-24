@@ -16,9 +16,9 @@ function WatchlistAside() {
     dispatch(resetMenu());
   };
   return (
-    <div className="h-3/4 grid-rows-[auto_1fr] grid">
+    <div className="h-3/4 grid-rows-[auto_1fr] grid pt-4">
       <div className="flex justify-between mx-2 pb-2 border-b">
-        <h2 className="text-2xl text-stone-300  font-bold leading-4 ">
+        <h2 className="text-2xl text-stone-300  font-bold leading-4 sm:leading-6">
           Watch List
         </h2>
         {watchlist.length < 10 ? null : (

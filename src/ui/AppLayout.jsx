@@ -108,21 +108,23 @@ function AppLayout() {
       }`}
     >
       <Header />
-      <div className="block sm:flex w-screen overflow-y-hidden">
-        <Aside />
-        {isOnDesktopMode ? (
-          <main className="overflow-y-scroll sm:w-4/6 sm:h-full sm:shrink-0">
-            {isLoading ? <Bars /> : <Outlet />}
-          </main>
-        ) : (
-          <main
-            className={` ${
-              isMenuOpen ? "overflow-hidden" : "overflow-y-scroll"
-            }`}
-          >
-            {isLoading ? <Bars /> : <Outlet />}
-          </main>
-        )}
+      <div className="flex justify-center overflow-y-hidden h-full">
+        <div className="sm:flex max-w-screen-lg grow ">
+          <Aside />
+          {isOnDesktopMode ? (
+            <main className="overflow-y-scroll sm:w-4/6 sm:h-full sm:shrink-0 mx-2 sm:shadow-2xl">
+              {isLoading ? <Bars /> : <Outlet />}
+            </main>
+          ) : (
+            <main
+              className={`${
+                isMenuOpen ? "overflow-hidden" : "overflow-y-scroll h-full"
+              }`}
+            >
+              {isLoading ? <Bars /> : <Outlet />}
+            </main>
+          )}
+        </div>
       </div>
 
       <Footer />
