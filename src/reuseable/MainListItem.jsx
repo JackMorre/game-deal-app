@@ -2,18 +2,26 @@ import { checkTitleLength } from "../utility/helpers";
 
 import { useDispatch } from "react-redux";
 
-import { updateDealID } from "../features/dataSlice";
+import { updateDealID, updateHistory } from "../features/dataSlice";
 import { FaStar } from "react-icons/fa";
+import { v4 as uuid } from "uuid";
 
 function MainListItem({ game }) {
   const dispatch = useDispatch();
+  const gameTitle = !game.external ? game.name : game.external;
   const handleNavigateDeal = () => {
     dispatch(
       updateDealID(!game.cheapestDealID ? game.dealID : game.cheapestDealID)
     );
+    dispatch(
+      updateHistory({
+        label: "viewed",
+        name: gameTitle,
+        id: uuid(),
+      })
+    );
   };
 
-  const gameTitle = !game.external ? game.name : game.external;
   return (
     <li
       onClick={handleNavigateDeal}

@@ -7,11 +7,9 @@ import {
   resetQuicksearch,
   toggleLoading,
   updateClicked,
-  updateHistory,
 } from "../features/dataSlice";
 import axios from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
 
 import Aside from "./Aside";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,13 +39,7 @@ function AppLayout() {
           );
           const checked = checkInWishlist(watchlist, res.data.gameInfo);
           dispatch(resetQuicksearch());
-          dispatch(
-            updateHistory({
-              label: "viewed",
-              name: res.data.gameInfo.name,
-              id: uuid(),
-            })
-          );
+
           dispatch(
             updateClicked({ ...res.data.gameInfo, isInWatchlist: checked })
           );
