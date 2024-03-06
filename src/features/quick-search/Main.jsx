@@ -7,8 +7,6 @@ import MainListItem from "../../reuseable/MainListItem";
 import { useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
 
-import { useNavigate } from "react-router-dom";
-
 function Main() {
   const loading = useSelector((state) => state.data.loading);
   const { data, watchlist } = useSelector((state) => state.data);
@@ -28,13 +26,13 @@ function Main() {
             ariaLabel="line-wave-loading"
           />
         </div>
-      ) : data.length === 0 ? (
+      ) : data.games?.length === 0 ? (
         <p className="text-center mt-8 text-xl">
           Try searching for a game or use one of the quick searches in the menu.
         </p>
       ) : (
         <ul>
-          {newData.games.map((game) => (
+          {newData.games?.map((game) => (
             <MainListItem game={game} key={game.cheapestDealID} />
           ))}
         </ul>
