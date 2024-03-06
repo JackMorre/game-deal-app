@@ -13,7 +13,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 import Aside from "./Aside";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDesktopMode } from "./UiSlice";
+import { desktopModeFalse, desktopModeTrue } from "./UiSlice";
 
 function AppLayout() {
   const [isDesktop, setIsDesktop] = useState(false);
@@ -83,9 +83,9 @@ function AppLayout() {
   useEffect(
     function () {
       if (isDesktop === true) {
-        dispatch(toggleDesktopMode());
+        dispatch(desktopModeTrue());
       } else {
-        dispatch(toggleDesktopMode());
+        dispatch(desktopModeFalse());
       }
     },
     [isDesktop, dispatch]

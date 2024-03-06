@@ -25,7 +25,7 @@ function Aside() {
       <div
         className={`w-5/6 sm:w-full h-screen bg-sky-950 shadow-2xl grid-rows-[auto_1fr_auto] grid sm:grid-rows-[1fr_auto] sm:h-full`}
       >
-        {!isOnDesktopMode && (
+        {!isOnDesktopMode ? (
           <div className="flex items-center justify-between p-4 border-b">
             <button onClick={toggleMenuHeader}>
               <FaXmark size="30px" />
@@ -35,7 +35,7 @@ function Aside() {
               {isHistoryOpen ? "History" : "BGD"}
             </h1>
           </div>
-        )}
+        ) : null}
         {isHistoryOpen ? <HistoryAside /> : <MainMenu />}
 
         <div className="flex justify-between bg-inherit border-t h-auto ">

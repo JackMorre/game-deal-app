@@ -20,13 +20,21 @@ const uiSlice = createSlice({
       state.isMenuOpen = false;
       state.isHistoryOpen = false;
     },
-    toggleDesktopMode(state, action) {
-      state.isOnDesktopMode = !state.isOnDesktopMode;
+    desktopModeTrue(state, action) {
+      state.isOnDesktopMode = true;
+    },
+    desktopModeFalse(state, action) {
+      state.isOnDesktopMode = false;
     },
   },
 });
 
-export const { toggleMenu, toggleHistory, resetMenu, toggleDesktopMode } =
-  uiSlice.actions;
+export const {
+  toggleMenu,
+  toggleHistory,
+  resetMenu,
+  desktopModeTrue,
+  desktopModeFalse,
+} = uiSlice.actions;
 
 export default uiSlice.reducer;
